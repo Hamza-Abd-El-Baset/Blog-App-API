@@ -29,3 +29,20 @@ module.exports.getUser = asyncHandler(async (req, res) => {
 
     res.status(200).json(user)
 })
+
+/**
+ * @desc Update user profile by id
+ * @route /api/users/profile/:id
+ * @method PUT
+ * @access private (only user himself)
+ */
+module.exports.updateUser = asyncHandler(async (req, res) => {
+
+    const user = await User.findById(req.params.id).select("-password")
+
+    if(!user) {
+        return res.status(404).json({message: "User not found"})
+    }
+
+    res.status(200).json(user)
+})
