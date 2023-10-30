@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
-const {getAllUsers, getUser, updateUser, uploadProfilePhoto, getUsersCount} = require('../controllers/usersController')
-const {verifyLoggedIn, verifyAdmin, verifyUserId} = require('../middlewares/verification')
+const {getAllUsers, getUser, updateUser, uploadProfilePhoto, getUsersCount, deleteUser} = require('../controllers/usersController')
+const {verifyLoggedIn, verifyAdmin, verifyUserId, verifyUserIdOrAdmin} = require('../middlewares/verification')
 const validateObjectId = require('../middlewares/validateObjectId.js')
 const photoUpload = require('../middlewares/photoUpload')
 
@@ -20,6 +20,7 @@ router.route('/profile')
 router.route('/profile/:id')
 .get(validateObjectId, getUser)
 .put(validateObjectId, verifyLoggedIn, verifyUserId, updateUser)
+.delete(validateObjectId, verifyLoggedIn, verifyUserIdOrAdmin, deleteUser)
 
 
 /**

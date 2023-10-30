@@ -31,7 +31,7 @@ const verifyAdmin = (req, res, next) => {
 }
 
 const verifyUserId = (req, res, next) => {
-  
+    
     if(req.user.id == req.params.id) {
         next()
     } else {
@@ -39,8 +39,20 @@ const verifyUserId = (req, res, next) => {
     }
 }
 
+const verifyUserIdOrAdmin = (req, res, next) => {
+    
+    const {isAdmin} = req.user
+
+    if(req.user.id == req.params.id || isAdmin) {
+        next()
+    } else {
+        return res.status(403).json({message: "Not allowed, only admin or profile owner can delete the profile"})
+    }
+}
+
 module.exports = {
     verifyLoggedIn,
     verifyAdmin,
-    verifyUserId
+    verifyUserId,
+    verifyUserIdOrAdmin
 }
