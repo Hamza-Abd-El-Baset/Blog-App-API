@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 
-const verifyUser = (req, res, next) => {
+const verifyLoggedIn = (req, res, next) => {
 
     if(req.headers.authorization) {
         const token = req.headers.authorization.split(" ")[1]
@@ -19,17 +19,28 @@ const verifyUser = (req, res, next) => {
 }
 
 const verifyAdmin = (req, res, next) => {
-    verifyUser(req, res, () => {
-        const {isAdmin} = req.user
-        if(isAdmin) {
-            next()
-        } else {
-            return res.status(403).json({message: "Not allowed, only admin"})
-        }
-    })
+
+    const {isAdmin} = req.user
+    
+    if(isAdmin) {
+        next()
+    } else {
+        return res.status(403).json({message: "Not allowed, only admin"})
+    }
+
+}
+
+const verifyUserId = (req, res, next) => {
+  
+    if(req.user.id == req.params.id) {
+        next()
+    } else {
+        return res.status(403).json({message: "Not allowed, only profile owner can modify"})
+    }
 }
 
 module.exports = {
-    verifyUser,
-    verifyAdmin
+    verifyLoggedIn,
+    verifyAdmin,
+    verifyUserId
 }

@@ -1,18 +1,41 @@
 const express = require('express')
 const router = express.Router()
-const {getAllUsers, getUser} = require('../controllers/usersController')
-const {verifyAdmin} = require('../middlewares/verification')
-const validateObjectId = require('../middlewares/validateObjectId')
+const {getAllUsers, getUser, updateUser, uploadProfilePhoto, getUsersCount} = require('../controllers/usersController')
+const {verifyLoggedIn, verifyAdmin, verifyUserId} = require('../middlewares/verification')
+const validateObjectId = require('../middlewares/validateObjectId.js')
+const photoUpload = require('../middlewares/photoUpload')
 
-// /api/users/profile
-
+/**
+* @desc Get all user profiles (admin only)
+* @route /api/users/profile
+*/
 router.route('/profile')
+.all(verifyLoggedIn)
 .get(verifyAdmin, getAllUsers)
 
-
-// /api/users/profile/:id
-
+/**
+* @desc Get and Update user's profile by id
+* @route /api/users/profile/:id
+*/
 router.route('/profile/:id')
 .get(validateObjectId, getUser)
+.put(validateObjectId, verifyLoggedIn, verifyUserId, updateUser)
+
+
+/**
+* @desc Upload user profile photo (logged-in users only)
+* @route /api/users/profile/profilePhoto
+*/
+router.route('/profile/profilePhoto')
+.post(verifyLoggedIn, photoUpload.single("image"), uploadProfilePhoto)
+
+
+/**
+* @desc Get the count of users (admin only)
+* @route /api/users/count
+*/
+router.route('/count')
+.all(verifyLoggedIn)
+.get(verifyAdmin, getUsersCount)
 
 module.exports = router

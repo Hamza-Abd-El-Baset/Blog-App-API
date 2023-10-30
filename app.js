@@ -23,6 +23,21 @@ connectToDB()
     })
 })
 
+/*
+//error handler
+app.use((err, req, res, next) =>{
+    console.error(err)
+    err.statusCode = err.statusCode || 500
+    const handledError = err.statusCode < 500
+    res.status(err.statusCode)
+    .send({
+        message : handledError ? err.message : 'Something went wrong',
+        errors: handledError ? err.errors : ""
+    })
+})
+*/
+
+
 
 
 
