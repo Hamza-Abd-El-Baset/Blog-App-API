@@ -79,3 +79,21 @@ module.exports.getAllPosts = asyncHandler(async (req, res) => {
     }
     res.status(200).json(posts)
 })
+
+
+
+/**
+ * @desc    Get single post
+ * @route   /api/posts/:id
+ * @method  GET
+ * @access  public
+ */
+module.exports.getSinglePost = asyncHandler(async (req, res) => {
+    const post = await Post.findById(req.params.id).populate(["-password"])
+    
+    if(!post) {
+        return res.json({message: "Post not found"})
+    }
+
+    res.status(200).json(posts)
+})
