@@ -47,3 +47,35 @@ module.exports.createPost = asyncHandler(async (req, res) => {
     // 6. Remove image from the server
     fs.unlinkSync(imagePath)
 })
+
+
+/**
+ * @desc    Get all posts
+ * @route   /api/posts
+ * @method  GET
+ * @access  public
+ */
+module.exports.getAllPosts = asyncHandler(async (req, res) => {
+    const postsPerPage = 3
+    const {pageNumber, category} = req.query
+    let posts
+
+    if(pageNumber) {
+        posts = await Post.find()
+        .skip((postsPerPage-1) * pageNumber)
+        .limit(postsPerPage)
+        .sort({createdAt: -1})
+        .populate("user", ["-password"])
+    }
+    else if(category) {
+        posts = await Post.find({category})
+        .sort({createdAt: -1})
+        .populate("user", ["-password"])
+    }
+    else {
+        posts = await Post.find()
+        .sort({createdAt: -1})
+        .populate("user", ["-password"])
+    }
+    res.status(200).json(posts)
+})
