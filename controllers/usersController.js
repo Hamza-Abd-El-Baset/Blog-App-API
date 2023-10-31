@@ -1,6 +1,6 @@
 const asyncHandler =require('express-async-handler')
 const bcrypt = require('bcryptjs')
-const {User, validateUpdatedUser} = require('../models/User')
+const {User, validateUpdateUser} = require('../models/User')
 const path = require('path')
 const fs = require('fs')
 const { cloudinaryUploadFile, cloudinaryRemoveFile} = require('../utils/cloudinary')
@@ -60,7 +60,7 @@ module.exports.updateUser = asyncHandler(async (req, res) => {
     const userUpdate = req.body
 
     //Validate update
-    const {error} = validateUpdatedUser(userUpdate)
+    const {error} = validateUpdateUser(userUpdate)
 
     if(error) {
         return res.status(400).json({message: error.details[0].message})
