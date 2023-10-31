@@ -30,7 +30,7 @@ module.exports.createPost = asyncHandler(async (req, res) => {
 
     // 4. Create new post and save it to DB
     const post = await Post.create({
-        tiltle: req.body.tiltle,
+        title: req.body.title,
         description: req.body.description,
         category: req.body.category,
         user: req.user.id,
