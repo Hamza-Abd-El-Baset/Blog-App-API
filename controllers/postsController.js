@@ -1,4 +1,4 @@
-const {Post, validateCreatePost} = require('../models/Post')
+const {Post, validateCreatePost, validateUpdatePost} = require('../models/Post')
 const asyncHandler = require('express-async-handler')
 
 const {cloudinaryUploadFile, cloudinaryRemoveFile} = require('../utils/cloudinary')
@@ -96,4 +96,61 @@ module.exports.getSinglePost = asyncHandler(async (req, res) => {
     }
 
     res.status(200).json(posts)
+})
+
+
+
+/**
+ * @desc    Update post
+ * @route   /api/posts/:id
+ * @method  POST
+ * @access  private (only user himself)
+*/
+module.exports.updatePost = asyncHandler(async (req, res) => {
+    
+    // 1. Validation for data
+    const {error} = validateUpdatePost(req.body)
+    if(error) {
+        return res.status(400).json({message: error.details[0].message})
+    }
+    
+    // 2. Update title, description and category
+    const post = await findByIdAndUpdate(req.user.id, req.body, {
+        new: true
+    })
+
+
+
+    // 3. Edit photo if exist
+    if(req.file) {
+        
+        
+        // Remove old image
+        await cloudinaryRemoveFile(post.image.publicId)
+        
+        //upload new image
+        const imagePath = path.join(__dirname, `../images/${req.file.filename}`)
+        const uploadResult = await cloudinaryUploadFile(imagePath)
+        
+        post.image = {
+                url: uploadResult.secure_url,
+                publicId: uploadResult.public_id
+            }
+        post.save()
+
+        // Remove image from the server
+        fs.unlinkSync(imagePath)
+
+    }
+
+
+    
+
+    
+
+
+    // 4. Send response to the client
+    res.status(201).json(post)
+
+    
 })
