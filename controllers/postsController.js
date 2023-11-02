@@ -177,13 +177,11 @@ module.exports.updatePost = asyncHandler(async (req, res) => {
     // 4. Update post
     const updatedPost = await Post.findByIdAndUpdate(req.params.id, req.body, {
         new: true
-    })
+    }).populate("user", ["-password"])
 
-    // 5. Send response to the client
-    res.status(200).json(updatedPost)
-
-    /*
-    // 6. Edit photo if exist
+    
+    
+    // 5. Edit photo if exist
     if(req.file) {
         
         
@@ -194,16 +192,18 @@ module.exports.updatePost = asyncHandler(async (req, res) => {
         const imagePath = path.join(__dirname, `../images/${req.file.filename}`)
         const uploadResult = await cloudinaryUploadFile(imagePath)
         
-        post.image = {
+        updatedPost.image = {
                 url: uploadResult.secure_url,
                 publicId: uploadResult.public_id
             }
-        post.save()
-
+        updatedPost.save()
+        
         // Remove image from the server
         fs.unlinkSync(imagePath)
-
+        
     }
-    */    
+    
+    // 6. Send response to the client
+    res.status(200).json(updatedPost)
     
 })

@@ -26,7 +26,7 @@ router.route('/count')
 router.route('/:id')
 .get(validateObjectId, getSinglePost)
 .delete(validateObjectId, verifyLoggedIn, deletePost)
-.put(validateObjectId, verifyLoggedIn, updatePost)
+.put(validateObjectId, verifyLoggedIn, photoUpload.single("image"), updatePost)
 //Must change verify user id to verify post user id
 // Can also merge loggedin and verifyUserId to be verify logged-in user id
 // and verify isAdmin to be verify logged in user isAdmin
