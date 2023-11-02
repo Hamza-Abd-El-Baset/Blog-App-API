@@ -89,22 +89,68 @@ module.exports.getAllPosts = asyncHandler(async (req, res) => {
  * @access  public
  */
 module.exports.getSinglePost = asyncHandler(async (req, res) => {
-    const post = await Post.findById(req.params.id).populate(["-password"])
+    const post = await Post.findById(req.params.id).populate("user", ["-password"])
     
     if(!post) {
         return res.json({message: "Post not found"})
     }
 
-    res.status(200).json(posts)
+    res.status(200).json(post)
 })
 
+
+/**
+ * @desc    Get posts count
+ * @route   /api/posts/count
+ * @method  GET
+ * @access  public
+ */
+module.exports.getPostsCount = asyncHandler(async (req, res) => {
+    
+    const postsCount = await Post.count()
+
+    res.status(200).json({postsCount})
+})
+
+
+/**
+ * @desc    Get single post
+ * @route   /api/posts/:id
+ * @method  GET
+ * @access  public
+ */
+module.exports.deletePost = asyncHandler(async (req, res) => {
+    const post = await Post.findById(req.params.id)
+    
+    if(!post) {
+        return res.status(404).json({message: "Post not found"})
+    }
+
+    if(req.user.isAdmin || req.user.id === post.user.toString()) {
+        await Post.findByIdAndDelete(req.params.id)
+        await cloudinaryRemoveFile(post.image.publicId)
+        
+        // @todo -- delete all comments that belongs to this post
+
+        res.status(200).json({
+            message: "Post has been deleted successfully",
+            postId: post._id
+            })
+    } else {
+        res.status(403).json({message: "Access denied, forbidden"})
+    }
+
+        
+
+
+})
 
 
 /**
  * @desc    Update post
  * @route   /api/posts/:id
  * @method  POST
- * @access  private (only user himself)
+ * @access  private (only owner of the post)
 */
 module.exports.updatePost = asyncHandler(async (req, res) => {
     
@@ -114,14 +160,30 @@ module.exports.updatePost = asyncHandler(async (req, res) => {
         return res.status(400).json({message: error.details[0].message})
     }
     
-    // 2. Update title, description and category
-    const post = await findByIdAndUpdate(req.user.id, req.body, {
+
+    // 2. Get post and check if it exists
+    const post = await Post.findById(req.params.id)
+    if(!post) {
+        res.status(404).json({message: "Post not found"})
+    }
+
+
+    // 3. Check if this post belong to the logged-in user
+    if(req.user.id !== post.user.toString()) {
+        return res.status(403).json({message: "Access denied, forbidden"})
+    }
+
+
+    // 4. Update post
+    const updatedPost = await Post.findByIdAndUpdate(req.params.id, req.body, {
         new: true
     })
 
+    // 5. Send response to the client
+    res.status(200).json(updatedPost)
 
-
-    // 3. Edit photo if exist
+    /*
+    // 6. Edit photo if exist
     if(req.file) {
         
         
@@ -142,15 +204,6 @@ module.exports.updatePost = asyncHandler(async (req, res) => {
         fs.unlinkSync(imagePath)
 
     }
-
-
-    
-
-    
-
-
-    // 4. Send response to the client
-    res.status(201).json(post)
-
+    */    
     
 })
