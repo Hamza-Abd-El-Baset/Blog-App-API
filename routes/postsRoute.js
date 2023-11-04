@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {createPost, getAllPosts, getSinglePost, updatePost, getPostsCount, deletePost} = require('../controllers/postsController')
+const {createPost, getAllPosts, getSinglePost, updatePost, getPostsCount, deletePost, toggleLike} = require('../controllers/postsController')
 const {verifyLoggedIn, verifyUserId} = require('../middlewares/verification')
 const photoUpload = require('../middlewares/photoUpload')
 const validateObjectId = require('../middlewares/validateObjectId')
@@ -34,6 +34,12 @@ router.route('/:id')
 //.put(verifyLoggedIn, verifyUserId, photoUpload.single("image"), updatePost)
 //check functionality of updatePost, especially updating image and assuring it is optional
 
+
+/**
+* @route /api/posts/:id/like
+*/
+router.route('/:id/like')
+.put(validateObjectId, verifyLoggedIn, toggleLike)
 
 
 module.exports = router

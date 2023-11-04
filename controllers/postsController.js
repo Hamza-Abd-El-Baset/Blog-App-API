@@ -207,3 +207,46 @@ module.exports.updatePost = asyncHandler(async (req, res) => {
     res.status(200).json(updatedPost)
     
 })
+
+
+/**
+ * @desc    Toggle like
+ * @route   /api/posts/:id/like
+ * @method  POST
+ * @access  private (only logged-in user)
+*/
+module.exports.toggleLike = asyncHandler(async (req, res) => {
+    
+    const {id: postId} = req.params
+    const loggedInUser = req.user.id
+    
+    // 1. Get post and check if it exists
+    let post = await Post.findById(postId)
+    if(!post) {
+        res.status(404).json({message: "Post not found"})
+    }
+
+
+    
+    // 2. Toggle post like
+    const isAlreadyLiked = post.likes.find(user => user.toString() === loggedInUser)
+
+    if(isAlreadyLiked) {
+        post = await Post.findByIdAndUpdate(postId, {
+            $pull: {likes: loggedInUser}
+        }, {
+            new: true
+        })   
+    } else {
+        post = await Post.findByIdAndUpdate(postId, {
+            $push: {likes: loggedInUser}
+        }, {
+            new: true
+        })   
+    }
+      
+     
+    // 3. Send response to the client
+    res.status(200).json(post)
+    
+})
