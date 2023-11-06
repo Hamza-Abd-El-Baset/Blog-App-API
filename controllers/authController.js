@@ -1,7 +1,7 @@
 const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcryptjs')
 
-const {User, validateRegisteredUser} = require("../models/User")
+const {User, validateRegisterUser} = require("../models/User")
 
 
 /**----------------------------------
@@ -13,7 +13,7 @@ const {User, validateRegisteredUser} = require("../models/User")
  module.exports.registerUser = asyncHandler(async (req, res) => {
     
     //Validate registered user
-    const {error} = validateRegisteredUser(req.body)
+    const {error} = validateRegisterUser(req.body)
     if(error) {
         return res.status(400).json({message: error.details[0].message})
     }

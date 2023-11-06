@@ -6,6 +6,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
+
 const cloudinaryUploadFile = async (file) => {
     try {
         const result = await cloudinary.uploader.upload(file, {
@@ -28,9 +29,18 @@ const cloudinaryRemoveFile = async (publicId) => {
         return error
     }
 }
+const cloudinaryRemoveMultipleFiles = async (publicIds) => {
+    try {
+        const result = await cloudinary.api.delete_resources(publicIds)
+        return result
+    }
+    catch(error) {
+        return error
+    }
+}
 
 module.exports = {
     cloudinaryUploadFile,
-    cloudinaryRemoveFile
+    cloudinaryRemoveFile,
+    cloudinaryRemoveMultipleFiles
 }
-

@@ -1,9 +1,12 @@
 const asyncHandler =require('express-async-handler')
 const bcrypt = require('bcryptjs')
 const {User, validateUpdateUser} = require('../models/User')
+const {Post} = require("../models/Post")
+const {Comment} = require("../models/Comment")
 const path = require('path')
 const fs = require('fs')
-const { cloudinaryUploadFile, cloudinaryRemoveFile} = require('../utils/cloudinary')
+const { cloudinaryUploadFile, cloudinaryRemoveFile, cloudinaryRemoveMultipleFiles} = require('../utils/cloudinary')
+const { post } = require('../routes/postsRoute')
 
 /**
  * @desc Get all users profile
@@ -149,18 +152,26 @@ module.exports.deleteUser = asyncHandler(async (req, res) => {
         return res.status(404).json({message: "User not found"})
     }
 
-    // 2. @todo - Get all posts from DB
-    // 3. @todo - Get the public id's from the posts
-    // 4. @todo - Delete all posts image from cloudinary that belongs to this user
+    // 2. Delete all posts images from cloudinary that belongs to this user
+
+    const posts = await Post.find({user: user._id})
     
-    // 5. Delete the profile picture from cloudinary
+    if(posts.length > 0) {
+        const publicIds = posts.map(post => post.image.publicId)
+        await cloudinaryRemoveMultipleFiles(publicIds)
+    }
+
+    
+    // 3. Delete the profile picture from cloudinary
     await cloudinaryRemoveFile(user.profilePhoto.publicId)
 
-    // 6. @todo - Delete user posts and comments
+    // 4. Delete user posts and comments
+    await Post.deleteMany({user: user._id})
+    await Comment.deleteMany({user: user._id})
     
-    // 7. Delete the user himself
+    // 5. Delete the user himself
     await User.findByIdAndDelete(req.params.id)
 
-    // 8. Send response to the client
+    // 6. Send response to the client
     res.status(200).json({message: "The profile has been deleted"})
 })

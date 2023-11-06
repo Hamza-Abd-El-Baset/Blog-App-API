@@ -39,9 +39,17 @@ const postSchema = mongoose.Schema({
         }
     ]
 }, {
-    timestamps: true
+    timestamps: true,
+    toJSON: {virtuals: true},
+    toObject: {virtuals: true}
 })
 
+//Relation between posts and comments
+postSchema.virtual("comments", {
+    ref:"Comment",
+    foreignField: "postId",
+    localField: "_id"
+})
 
 //Post Model
 const Post = mongoose.model("Post", postSchema)
