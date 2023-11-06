@@ -17,5 +17,6 @@ router.route('/')
  */
 router.route('/:id')
 .delete(validateObjectId, verifyLoggedIn, commentsController.deleteComment)
+.put(validateObjectId, verifyLoggedIn, commentsController.updateComment)
 
 module.exports = router

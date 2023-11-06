@@ -1,5 +1,5 @@
 const asyncHandler = require('express-async-handler')
-const {Comment, validateCreateComment} = require('../models/Comment')
+const {Comment, validateCreateComment, validateUpdateComment} = require('../models/Comment')
 const {User} = require('../models/User')
 
 
@@ -60,4 +60,33 @@ module.exports.deleteComment = asyncHandler(async (req, res) => {
     else {
         res.status(403).json({message: "Access denied, not  allowed"})
     }
+})
+
+
+/**
+ * @desc    Update comment
+ * @route   /api/comments/:id
+ * @method  POST
+ * @access  private (only owner of the comment)
+*/
+module.exports.updateComment = asyncHandler(async (req, res) => {
+    const {error} = validateUpdateComment(req.body)
+    if(error) {
+        return res.status(400).json({message: error.details[0].message})
+    }
+
+    const comment = await Comment.findById(req.params.id)
+
+    if(!comment) {
+        res.status(404).json({message: "Comment not found"})
+    }
+
+    if(req.user.id !== comment.user.toString()) {
+        return res.status(403).json({message: "Access denied, only comment owner can modify it"})
+    }
+
+    comment.text = req.body.text
+    comment.save()
+
+    res.status(200).json(comment)
 })

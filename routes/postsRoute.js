@@ -41,5 +41,4 @@ router.route('/:id')
 router.route('/:id/like')
 .put(validateObjectId, verifyLoggedIn, toggleLike)
 
-
 module.exports = router
