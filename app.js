@@ -12,6 +12,7 @@ app.use(express.json())
 app.use('/api/auth', require('./routes/authRoute'))
 app.use('/api/users', require('./routes/usersRoute'))
 app.use('/api/posts', require('./routes/postsRoute'))
+app.use('/api/comments', require('./routes/commentsRoute'))
 
 //Connecting to DB then Running the server
 const port = process.env.PORT || 3000
