@@ -45,7 +45,16 @@ const userSchema = mongoose.Schema({
         default: false
     }
 }, {
-    timestamps: true
+    timestamps: true,
+    toJSON: {virtuals: true},
+    toObject: {virtuals: true}
+})
+
+//Connecting between User and Post model
+userSchema.virtual("posts",{
+    ref: "Post",
+    foreignField: "user",
+    localField: "_id"
 })
 
 //Generate Auth Token

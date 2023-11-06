@@ -13,7 +13,7 @@ const { cloudinaryUploadFile, cloudinaryRemoveFile} = require('../utils/cloudina
  */
 module.exports.getAllUsers = asyncHandler(async (req, res) => {
 
-    const users = await User.find().select('-password')
+    const users = await User.find().select('-password').populate("posts")
     res.status(200).json(users)
 })
 
@@ -40,7 +40,7 @@ module.exports.getUsersCount = asyncHandler(async (req, res) => {
 module.exports.getUser = asyncHandler(async (req, res) => {
 
     const {id} = req.params
-    const user = await User.findById(id).select("-password")
+    const user = await User.findById(id).select("-password").populate("posts")
 
     if(!user) {
         return res.status(404).json({message: "User not found"})
@@ -84,6 +84,7 @@ module.exports.updateUser = asyncHandler(async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(id, userUpdate, {
         new: true
     }).select('-password')
+    //.populate("posts")
     res.status(200).json(updatedUser)
 })
 
