@@ -24,7 +24,7 @@ git clone https://github.com/Hamza-Abd-El-Baset/Blog-App-API.git
 
 2. Install project dependencies using npm.
 
-```shell
+shell
 npm install
 ```
 
