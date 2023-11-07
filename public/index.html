@@ -3,9 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documentation</title>
+    <title>API Documentation</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-    Hello from Documentation
+    <h1>API Documentation</h1>
+
+    <!-- Authentication (api/auth) -->
+    <h2>Authentication (api/auth)</h2>
+    <p>
+        The authentication API provides endpoints for user authentication and authorization.
+    </p>
+    <ul>
+        <li>
+            <strong>POST /api/auth/register</strong> Register a new user.
+            <p>Creates a new user account.</p>
+        </li>
+        <li>
+            <strong>POST /api/auth/login</strong> Log in with credentials and receive an access token.
+            <p>Logs in a user and returns an access token for authentication.</p>
+        </li>
+    </ul>
+
+    <!-- Users (api/users) -->
+    <h2>Users (api/users)</h2>
+    <p>
+        The users API allows you to manage user profiles and accounts.
+    </p>
+    <ul>
+        <li>
+            <strong>GET /api/users/profile</strong> Get user profiles (admin only).
+            <p>Retrieves a list of user profiles.</p>
+        </li>
+        <li>
+            <strong>GET /api/users/profile/:id</strong> Get user profile by ID.
+            <p>Retrieves the profile of a specific user by their ID.</p>
+        </li>
+        <li>
+            <strong>PUT /api/users/profile/:id</strong> Update user profile by ID (user only).
+            <p>Allows a user to update their own profile information.</p>
+        </li>
+        <li>
+            <strong>POST /api/users/profile/profilePhoto</strong> Upload user profile photo (logged-in users only).
+            <p>Enables logged-in users to upload a profile photo.</p>
+        </li>
+        <li>
+            <strong>GET /api/users/count</strong> Get the count of users (admin only).
+            <p>Returns the total count of users in the system.</p>
+        </li>
+    </ul>
+
+    <!-- Posts (api/posts) -->
+    <h2>Posts (api/posts)</h2>
+    <p>
+        The posts API allows users to create, manage, and interact with posts.
+    </p>
+    <ul>
+        <li>
+            <strong>POST /api/posts</strong> Create a new post.
+            <p>Enables users to create a new post with optional image attachment.</p>
+        </li>
+        <li>
+            <strong>GET /api/posts</strong> Get all posts.
+            <p>Retrieves a list of all posts in the system.</p>
+        </li>
+        <li>
+            <strong>GET /api/posts/count</strong> Get the count of posts.
+            <p>Returns the total count of posts available.</p>
+        </li>
+        <li>
+            <strong>GET /api/posts/:id</strong> Get a single post by ID.
+            <p>Retrieves the details of a specific post by its ID.</p>
+        </li>
+        <li>
+            <strong>PUT /api/posts/:id</strong> Update a post by ID.
+            <p>Allows users to update an existing post with optional image attachment.</p>
+        </li>
+        <li>
+            <strong>DELETE /api/posts/:id</strong> Delete a post by ID.
+            <p>Enables users to delete a specific post by its ID.</p>
+        </li>
+        <li>
+            <strong>PUT /api/posts/:id/like</strong> Toggle like on a post.
+            <p>Allows users to toggle their like on a specific post.</p>
+        </li>
+    </ul>
+
+    <!-- Comments (api/comments) -->
+    <h2>Comments (api/comments)</h2>
+    <p>
+        The comments API allows users to create, update, and delete comments on posts.
+    </p>
+    <ul>
+        <li>
+            <strong>POST /api/comments</strong> Create a new comment.
+            <p>Enables users to create a new comment on a post.</p>
+        </li>
+        <li>
+            <strong>GET /api/comments</strong> Get all comments (admin only).
+            <p>Retrieves a list of all comments in the system (admin access).</p>
+        </li>
+        <li>
+            <strong>GET /api/comments/:id</strong> Get a comment by ID.
+            <p>Retrieves the details of a specific comment by its ID.</p>
+        </li>
+        <li>
+            <strong>PUT /api/comments/:id</strong> Update a comment by ID.
+            <p>Allows users to update an existing comment.</p>
+        </li>
+        <li>
+            <strong>DELETE /api/comments/:id</strong> Delete a comment by ID.
+            <p>Enables users to delete a specific comment by its ID.</p>
+        </li>
+    </ul>
+
+    <!-- Categories (api/categories) -->
+    <h2>Categories (api/categories)</h2>
+    <p>
+        The categories API deals with post categorization and management.
+    </p>
+    <ul>
+        <li>
+            <strong>POST /api/categories</strong> Create a new category (admin only).
+            <p>Enables administrators to create a new category.</p>
+        </li>
+        <li>
+            <strong>GET /api/categories</strong> Get all categories.
+            <p>Retrieves a list of all categories in the system.</p>
+        </li>
+        <li>
+            <strong>DELETE /api/categories/:id</strong> Delete a category by ID (admin only).
+            <p>Allows administrators to delete a category by its ID.</p>
+        </li>
+    </ul>
 </body>
 </html>
