@@ -8,12 +8,10 @@ const app = express()
 
 //Middlewares
 app.use(express.json())
-app.use(express.static('public'))
 
 // Mount the API documentation at the root path
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/public/index.html')
-  })
+app.use(express.static('public'))
+
 
 //Routes
 app.use('/api/auth', require('./routes/authRoute'))
