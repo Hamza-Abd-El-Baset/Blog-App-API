@@ -1,6 +1,7 @@
 const express = require("express")
 const connectToDB = require('./config/connectToDB')
 require("dotenv").config()
+const {errorHandler, notFoundHandler} = require('./middlewares/error')
 
 //Init App
 const app = express()
@@ -15,6 +16,10 @@ app.use('/api/posts', require('./routes/postsRoute'))
 app.use('/api/comments', require('./routes/commentsRoute'))
 app.use('/api/categories', require('./routes/categoriesRoute'))
 
+//Error Handler
+app.use(notFoundHandler)
+app.use(errorHandler)
+
 //Connecting to DB then Running the server
 const port = process.env.PORT || 3000
 connectToDB()
@@ -26,19 +31,6 @@ connectToDB()
     })
 })
 
-/*
-//error handler
-app.use((err, req, res, next) =>{
-    console.error(err)
-    err.statusCode = err.statusCode || 500
-    const handledError = err.statusCode < 500
-    res.status(err.statusCode)
-    .send({
-        message : handledError ? err.message : 'Something went wrong',
-        errors: handledError ? err.errors : ""
-    })
-})
-*/
 
 
 

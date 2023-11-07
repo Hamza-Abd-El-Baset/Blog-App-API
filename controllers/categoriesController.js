@@ -29,7 +29,7 @@ module.exports.createCategory = asyncHandler(async (req, res) => {
  * @access  public
 */
 module.exports.getAllCategories = asyncHandler(async (req, res) => {
-
+    
     const categories = await Category.find()
     res.status(200).json(categories)
 })
