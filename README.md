@@ -18,7 +18,7 @@ To get started with this project, follow these steps:
 
 1. Clone this repository to your local machine.
 
-```shell
+shell
 git clone https://github.com/Hamza-Abd-El-Baset/Blog-App-API.git
 ```
 
