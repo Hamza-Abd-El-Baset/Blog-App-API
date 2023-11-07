@@ -1,6 +1,3 @@
-Certainly, let's make the Markdown even clearer and more organized:
-
-```markdown
 # Blog App Backend
 
 This repository contains the backend component of a full-stack blog application developed using the MERN (MongoDB, Express.js, React, Node.js) stack. The backend provides the necessary APIs and functionality to support the blog application's core features.
