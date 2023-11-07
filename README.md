@@ -63,25 +63,8 @@ This repository contains the backend component of a full-stack blog application 
 
 Detailed instructions on how to use this backend API can be found in the [API Documentation](https://blog-app-api-ypu6.onrender.com/).
 
-## Contributing
-
-If you'd like to contribute to this project, please follow the [Contributing Guidelines](CONTRIBUTING.md).
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-I'd like to express my gratitude to the developer community and all the resources that have helped me in building this project.
-
 ## Contact
 
-If you have any questions or want to connect, you can reach me at [your email address].
+If you have any questions or want to connect, you can reach me at [https://www.linkedin.com/in/hamza-abd-el-baset/](https://www.linkedin.com/in/hamza-abd-el-baset/)
 
-## Additional Links
 
-- [Frontend Repository](https://github.com/Hamza-Abd-El-Baset/Blog-App-Frontend)
-```
-
-This revised version provides a more organized and structured README, making it easier to follow the steps and understand the information provided. Please replace `[your email address]` with your actual contact information.
