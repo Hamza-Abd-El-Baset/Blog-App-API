@@ -1,4 +1,3 @@
-```markdown
 # Blog App Backend
 
 This is the backend component of a full-stack blog application developed using the MERN (MongoDB, Express.js, React, Node.js) stack. The backend provides the necessary APIs and functionality to support the blog application's core features.
@@ -11,7 +10,7 @@ This is the backend component of a full-stack blog application developed using t
 - **Comment System**: Engage with posts through comments.
 - **Categories**: Organize and categorize blog posts.
 - **Backend API**: A robust backend API that powers it all.
-```
+
 
 ## Getting Started
 
