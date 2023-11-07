@@ -8,7 +8,7 @@ const app = express()
 
 //Middlewares
 app.use(express.json())
-app.use(express.static(__dirname + '/public'))
+app.use(express.static('public'))
 
 // Mount the API documentation at the root path
 app.get('/', (req, res) => {
