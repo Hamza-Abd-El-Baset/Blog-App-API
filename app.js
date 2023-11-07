@@ -12,7 +12,7 @@ app.use(express.static('public'))
 
 // Mount the API documentation at the root path
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/public/documentation/index.html')
+    res.sendFile('./public/documentation/index.html')
   })
 
 //Routes
