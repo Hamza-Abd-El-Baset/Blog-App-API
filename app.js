@@ -1,5 +1,6 @@
 const express = require("express")
 const connectToDB = require('./config/connectToDB')
+const cors = require('cors')
 require("dotenv").config()
 const {errorHandler, notFoundHandler} = require('./middlewares/error')
 
@@ -8,6 +9,11 @@ const app = express()
 
 //Middlewares
 app.use(express.json())
+
+//Cors Policy
+app.use(cors({
+    origin: "http://localhost:3000"
+}))
 
 // Mount the API documentation at the root path
 app.use(express.static('public'))

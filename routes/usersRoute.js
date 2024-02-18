@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router()
-const {getAllUsers, getUser, updateUser, uploadProfilePhoto, getUsersCount, deleteUser} = require('../controllers/usersController')
-const {verifyLoggedIn, verifyAdmin, verifyUserId, verifyUserIdOrAdmin} = require('../middlewares/verification')
+const usersController = require('../controllers/usersController.js')
+const {verifyLoggedIn, verifyAdmin, verifyUserId, verifyUserIdOrAdmin} = require('../middlewares/verification.js')
 const validateObjectId = require('../middlewares/validateObjectId.js')
-const photoUpload = require('../middlewares/photoUpload')
+const photoUpload = require('../middlewares/photoUpload.js')
 
 /**
 * @desc Get all user profiles (admin only)
@@ -11,16 +11,16 @@ const photoUpload = require('../middlewares/photoUpload')
 */
 router.route('/profile')
 .all(verifyLoggedIn)
-.get(verifyAdmin, getAllUsers)
+.get(verifyAdmin, usersController.getAllUsers)
 
 /**
 * @desc Get and Update user's profile by id
 * @route /api/users/profile/:id
 */
 router.route('/profile/:id')
-.get(validateObjectId, getUser)
-.put(validateObjectId, verifyLoggedIn, verifyUserId, updateUser)
-.delete(validateObjectId, verifyLoggedIn, verifyUserIdOrAdmin, deleteUser)
+.get(validateObjectId, usersController.getUser)
+.put(validateObjectId, verifyLoggedIn, verifyUserId, usersController.updateUser)
+.delete(validateObjectId, verifyLoggedIn, verifyUserIdOrAdmin, usersController.deleteUser)
 
 
 /**
@@ -28,7 +28,7 @@ router.route('/profile/:id')
 * @route /api/users/profile/profilePhoto
 */
 router.route('/profile/profilePhoto')
-.post(verifyLoggedIn, photoUpload.single("image"), uploadProfilePhoto)
+.post(verifyLoggedIn, photoUpload.single("image"), usersController.uploadProfilePhoto)
 
 
 /**
@@ -37,6 +37,6 @@ router.route('/profile/profilePhoto')
 */
 router.route('/count')
 .all(verifyLoggedIn)
-.get(verifyAdmin, getUsersCount)
+.get(verifyAdmin, usersController.getUsersCount)
 
 module.exports = router

@@ -78,6 +78,7 @@ const {User, validateRegisterUser} = require("../models/User")
         _id: user._id,
         isAdmin: user.isAdmin,
         profilePhoto: user.profilePhoto,
-        token
+        token,
+        username: user.username
     })
  })

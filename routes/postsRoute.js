@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {createPost, getAllPosts, getSinglePost, updatePost, getPostsCount, deletePost, toggleLike} = require('../controllers/postsController')
+const postsController = require('../controllers/postsController')
 const {verifyLoggedIn, verifyUserId} = require('../middlewares/verification')
 const photoUpload = require('../middlewares/photoUpload')
 const validateObjectId = require('../middlewares/validateObjectId')
@@ -9,30 +9,30 @@ const validateObjectId = require('../middlewares/validateObjectId')
 * @route /api/posts
 */
 router.route('/')
-.post(verifyLoggedIn, photoUpload.single("image"), createPost)
-.get(getAllPosts)
+.post(verifyLoggedIn, photoUpload.single("image"), postsController.createPost)
+.get(postsController.getAllPosts)
 
 
 /**
 * @route /api/posts/count
 */
 router.route('/count')
-.get(getPostsCount)
+.get(postsController.getPostsCount)
 
 
 /**
 * @route /api/posts/:id
 */
 router.route('/:id')
-.get(validateObjectId, getSinglePost)
-.delete(validateObjectId, verifyLoggedIn, deletePost)
-.put(validateObjectId, verifyLoggedIn, photoUpload.single("image"), updatePost)
+.get(validateObjectId, postsController.getSinglePost)
+.delete(validateObjectId, verifyLoggedIn, postsController.deletePost)
+.put(validateObjectId, verifyLoggedIn, photoUpload.single("image"), postsController.updatePost)
 
 
 /**
 * @route /api/posts/:id/like
 */
 router.route('/:id/like')
-.put(validateObjectId, verifyLoggedIn, toggleLike)
+.put(validateObjectId, verifyLoggedIn, postsController.toggleLike)
 
 module.exports = router
