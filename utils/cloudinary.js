@@ -15,7 +15,8 @@ const cloudinaryUploadFile = async (file) => {
         return result
     }
     catch(error) {
-        return error
+        console.log(error)
+        throw new Error("Internal Server Error (Cloudinary)")
     }
 }
 
@@ -26,7 +27,8 @@ const cloudinaryRemoveFile = async (publicId) => {
         return result
     }
     catch(error) {
-        return error
+        console.log(error)
+        throw new Error("Internal Server Error (Cloudinary)")
     }
 }
 const cloudinaryRemoveMultipleFiles = async (publicIds) => {
@@ -35,7 +37,8 @@ const cloudinaryRemoveMultipleFiles = async (publicIds) => {
         return result
     }
     catch(error) {
-        return error
+        console.log(error)
+        throw new Error("Internal Server Error (Cloudinary)")
     }
 }
 
