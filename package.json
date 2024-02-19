@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node .",
     "dev": "nodemon .",
-    "debug": "nodemon --inspect=3001 ."
+    "debug": "nodemon --inspect=5001 ."
   },
   "author": "",
   "license": "ISC",
