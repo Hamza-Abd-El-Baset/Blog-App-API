@@ -41,8 +41,10 @@ const {User, validateRegisterUser} = require("../models/User")
     // @todo - send verfication email
 
     //Send response to the client
-    res.status(201).json({message: "You registered successfully. Please, log in"})
- })
+    res
+    .status(201)
+    .json({message: "You registered successfully. Please, log in"})
+})
 
 
  /**----------------------------------
