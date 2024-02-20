@@ -113,7 +113,7 @@ module.exports.getPostsCount = asyncHandler(async (req, res) => {
     
     const postsCount = await Post.count()
 
-    res.status(200).json({postsCount})
+    res.status(200).json(postsCount)
 })
 
 
