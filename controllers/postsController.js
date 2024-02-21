@@ -111,7 +111,7 @@ module.exports.getSinglePost = asyncHandler(async (req, res) => {
  */
 module.exports.getPostsCount = asyncHandler(async (req, res) => {
     
-    const postsCount = await Post.count()
+    const postsCount = await Post.countDocuments()
 
     res.status(200).json(postsCount)
 })
