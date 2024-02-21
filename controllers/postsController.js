@@ -64,7 +64,7 @@ module.exports.getAllPosts = asyncHandler(async (req, res) => {
 
     if(pageNumber) {
         posts = await Post.find()
-        .skip((postsPerPage-1) * pageNumber)
+        .skip((postsPerPage) * (pageNumber - 1))
         .limit(postsPerPage)
         .sort({createdAt: -1})
         .populate("user", ["-password"])
