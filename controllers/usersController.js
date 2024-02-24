@@ -163,7 +163,9 @@ module.exports.deleteUser = asyncHandler(async (req, res) => {
 
     
     // 3. Delete the profile picture from cloudinary
-    await cloudinaryRemoveFile(user.profilePhoto.publicId)
+    if(user.profilePhoto.publicId) {
+        await cloudinaryRemoveFile(user.profilePhoto.publicId)
+    }
 
     // 4. Delete user posts and comments
     await Post.deleteMany({user: user._id})
