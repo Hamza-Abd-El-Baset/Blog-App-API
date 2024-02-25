@@ -70,9 +70,9 @@ module.exports.updateUser = asyncHandler(async (req, res) => {
     }
 
     //Check if username already exists
-    let user = await User.findOne({username: userUpdate.username})
+    let existingUser = await User.findOne({username: userUpdate.username})
 
-    if(user) {
+    if(existingUser && existingUser._id.toString() !== req.user.id) {
         return res.status(400).json({message: "Username already exists"})
     }
 
@@ -87,7 +87,8 @@ module.exports.updateUser = asyncHandler(async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(id, userUpdate, {
         new: true
     }).select('-password')
-    //.populate("posts")
+    .populate("posts")
+    
     res.status(200).json(updatedUser)
 })
 
