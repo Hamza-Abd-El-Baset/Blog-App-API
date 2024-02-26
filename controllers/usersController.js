@@ -30,7 +30,7 @@ module.exports.getAllUsers = asyncHandler(async (req, res) => {
 module.exports.getUsersCount = asyncHandler(async (req, res) => {
 
     const usersCount = await User.count()
-    res.status(200).json({usersCount})
+    res.status(200).json(usersCount)
 })
 
 
