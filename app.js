@@ -3,6 +3,7 @@ const connectToDB = require('./config/connectToDB')
 const cors = require('cors')
 require("dotenv").config()
 const {errorHandler, notFoundHandler} = require('./middlewares/error')
+require('./tokenCleanup');
 
 //Init App
 const app = express()

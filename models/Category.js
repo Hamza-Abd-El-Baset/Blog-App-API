@@ -9,7 +9,8 @@ const categorySchema = mongoose.Schema({
     },
     title: {
         type: String,
-        required: true
+        required: true,
+        trim: true,
     }
 }, {
     timestamps: true

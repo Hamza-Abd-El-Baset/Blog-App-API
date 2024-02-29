@@ -9,5 +9,8 @@ router.post('/register', authController.registerUser)
 // /api/auth/login
 router.post('/login', authController.loginUser)
 
+// /api/auth/:userId/verify/:token
+router.get('/:userId/verify/:token', authController.verifyUserAccount)
+
 
 module.exports = router
