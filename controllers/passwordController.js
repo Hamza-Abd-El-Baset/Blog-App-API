@@ -28,7 +28,7 @@ const sendEmail = require('../utils/sendEmail')
     }
 
     // 3. Creating verificationToken
-    let verificationToken = await VerificationToken.find({userId: user._id})
+    let verificationToken = await VerificationToken.findOne({userId: user._id})
     if(!verificationToken) {
         verificationToken = new VerificationToken({
             userId: user._id,
@@ -124,16 +124,19 @@ const sendEmail = require('../utils/sendEmail')
         return res.status(400).json({ message: "Link has expired" });
     }
 
+    
     if(!user.isAccountVerified) {
         user.isAccountVerified = true
     }
-
+    
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(req.body.password, salt)
 
     user.password = hashedPassword
-
+    
     await user.save()
+    
+    await VerificationToken.deleteOne({_id : verificationToken._id});
 
     res.status(200).json({ message: "Your password has been reset successfully"})
  })
