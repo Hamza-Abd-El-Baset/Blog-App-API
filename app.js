@@ -13,7 +13,7 @@ app.use(express.json())
 
 //Cors Policy
 app.use(cors({
-    origin: "http://localhost:3000"
+    origin: process.env.FRONTEND_DOMAIN
 }))
 
 // Mount the API documentation at the root path
@@ -26,13 +26,14 @@ app.use('/api/users', require('./routes/usersRoute'))
 app.use('/api/posts', require('./routes/postsRoute'))
 app.use('/api/comments', require('./routes/commentsRoute'))
 app.use('/api/categories', require('./routes/categoriesRoute'))
+app.use('/api/password', require('./routes/passwordRoute'))
 
 //Error Handler
 app.use(notFoundHandler)
 app.use(errorHandler)
 
 //Connecting to DB then Running the server
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 5000
 connectToDB()
 .then(() => {
     app.listen(port, () => {

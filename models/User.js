@@ -87,8 +87,26 @@ const validateUpdateUser = (obj) => {
     return schema.validate(obj)
 }
 
+//Validate Email
+const validateEmail = (obj) => {
+    const schema = joi.object({
+        email: joi.string().trim().min(5).max(50).required().email(),
+    })
+    return schema.validate(obj)
+}
+
+//Validate New Password
+const validateNewPassword = (obj) => {
+    const schema = joi.object({
+        password: joi.string().trim().min(8).required()
+    })
+    return schema.validate(obj)
+}
+
 module.exports = {
     User,
     validateRegisterUser,
-    validateUpdateUser
+    validateUpdateUser,
+    validateEmail,
+    validateNewPassword
 }

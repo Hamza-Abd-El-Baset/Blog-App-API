@@ -166,7 +166,7 @@ const sendEmail = require('../utils/sendEmail')
     // Check if the token has expired
     if (verificationToken.expiresAt && verificationToken.expiresAt < Date.now()) {
         await VerificationToken.deleteOne({_id : verificationToken._id}); // Delete the expired token
-        return res.status(400).json({ message: "Token has expired" });
+        return res.status(400).json({ message: "Link has expired" });
     }
 
     user.isAccountVerified = true
