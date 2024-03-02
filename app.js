@@ -4,14 +4,18 @@ const cors = require('cors')
 require("dotenv").config()
 const {errorHandler, notFoundHandler} = require('./middlewares/error')
 require('./tokenCleanup');
+const { xss } = require('express-xss-sanitizer');
 
-//Init App
+// Init App
 const app = express()
 
-//Middlewares
+// Middlewares
 app.use(express.json())
 
-//Cors Policy
+// Prevent XSS (Cross Site Scripting) Attacks
+app.use(xss())
+
+// Cors Policy
 app.use(cors({
     origin: process.env.FRONTEND_DOMAIN
 }))
@@ -28,11 +32,11 @@ app.use('/api/comments', require('./routes/commentsRoute'))
 app.use('/api/categories', require('./routes/categoriesRoute'))
 app.use('/api/password', require('./routes/passwordRoute'))
 
-//Error Handler
+// Error Handler
 app.use(notFoundHandler)
 app.use(errorHandler)
 
-//Connecting to DB then Running the server
+// Connecting to DB then Running the server
 const port = process.env.PORT || 5000
 connectToDB()
 .then(() => {
@@ -42,11 +46,4 @@ connectToDB()
         )
     })
 })
-
-
-
-
-
-
-
 
