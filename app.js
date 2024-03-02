@@ -5,6 +5,7 @@ require("dotenv").config()
 const {errorHandler, notFoundHandler} = require('./middlewares/error')
 require('./tokenCleanup');
 const { xss } = require('express-xss-sanitizer');
+const rateLimiting = require('express-rate-limit')
 
 // Init App
 const app = express()
@@ -14,6 +15,12 @@ app.use(express.json())
 
 // Prevent XSS (Cross Site Scripting) Attacks
 app.use(xss())
+
+// Rate Limiting
+app.use(rateLimiting({
+    windowMs: 10 * 60 * 1000, // 10 minutes
+    max: 200, 
+}))
 
 // Cors Policy
 app.use(cors({
