@@ -6,12 +6,20 @@ const {errorHandler, notFoundHandler} = require('./middlewares/error')
 require('./tokenCleanup');
 const { xss } = require('express-xss-sanitizer');
 const rateLimiting = require('express-rate-limit')
+const helmet = require('helmet')
+const hpp = require('hpp')
 
 // Init App
 const app = express()
 
 // Middlewares
 app.use(express.json())
+
+// Security Headers (helmet)
+app.use(helmet())
+
+// Prevent Http Param Pollution
+app.use(hpp())
 
 // Prevent XSS (Cross Site Scripting) Attacks
 app.use(xss())
