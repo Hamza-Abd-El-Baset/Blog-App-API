@@ -6,7 +6,6 @@ const {Comment} = require("../models/Comment")
 const path = require('path')
 const fs = require('fs')
 const { cloudinaryUploadFile, cloudinaryRemoveFile, cloudinaryRemoveMultipleFiles} = require('../utils/cloudinary')
-const { post } = require('../routes/postsRoute')
 
 /**
  * @desc Get all users profile
@@ -78,8 +77,13 @@ module.exports.updateUser = asyncHandler(async (req, res) => {
 
     //Hashing password if exists
     if(userUpdate.password) {
-        const salt = bcrypt.genSalt(10)
-        userUpdate.password = bcrypt.hash(userUpdate.password, salt)
+        try {
+            const salt = await bcrypt.genSalt(10);
+            userUpdate.password = await bcrypt.hash(userUpdate.password, salt);
+        } catch (error) {
+            console.error('Error hashing password:', error);
+            return res.status(500).json({ message: 'Error updating password' });
+        }
     }
 
     //Updating user and sending response with updated user to the Client

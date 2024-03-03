@@ -179,6 +179,7 @@ module.exports.updatePost = asyncHandler(async (req, res) => {
     const updatedPost = await Post.findByIdAndUpdate(req.params.id, req.body, {
         new: true
     }).populate("user", ["-password"])
+    .populate("comments")
 
     
     
