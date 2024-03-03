@@ -4,7 +4,7 @@ require("dotenv").config()
 const {errorHandler, notFoundHandler} = require('./middlewares/error')
 require('./tokenCleanup');
 const { xss } = require('express-xss-sanitizer');
-const rateLimiting = require('express-rate-limit')
+const rateLimit = require('express-rate-limit')
 const helmet = require('helmet')
 const hpp = require('hpp')
 
@@ -23,8 +23,11 @@ app.use(hpp())
 // Prevent XSS (Cross Site Scripting) Attacks
 app.use(xss())
 
+// Trust the first proxy (e.g., Render)
+app.set('trust proxy', 1);
+
 // Rate Limiting
-app.use(rateLimiting({
+app.use(rateLimit({
     windowMs: 10 * 60 * 1000, // 10 minutes
     max: 200, 
 }))
