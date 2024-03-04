@@ -1,5 +1,6 @@
 const express = require("express")
 const connectToDB = require('./config/connectToDB')
+const cors = require('cors');
 require("dotenv").config()
 const {errorHandler, notFoundHandler} = require('./middlewares/error')
 require('./tokenCleanup');
@@ -33,14 +34,10 @@ app.use(rateLimit({
 }))
 
 
-// Custom CORS middleware
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', process.env.FRONTEND_DOMAIN);
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.setHeader('Access-Control-Allow-Credentials', true);
-    next();
-});
+
+app.use(cors({
+  origin: "https://blog-app-virid-eight.vercel.app"
+}));
 
 
 // Mount the API documentation at the root path
