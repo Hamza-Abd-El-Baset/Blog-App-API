@@ -34,9 +34,9 @@ app.use(rateLimit({
 }))
 
 
-
+// CORS Policy
 app.use(cors({
-  origin: "https://blog-app-virid-eight.vercel.app"
+  origin: process.env.FRONTEND_DOMAIN
 }));
 
 
