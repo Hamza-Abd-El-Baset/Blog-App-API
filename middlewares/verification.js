@@ -6,6 +6,16 @@ const verifyLoggedIn = (req, res, next) => {
         const token = req.headers.authorization.split(" ")[1]
         try{
             const decodedPayload = jwt.verify(token, process.env.JWT_SECRET)
+
+            // Extracting expiration time from the decoded token
+            const expirationTime = decodedPayload.exp;
+            const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
+            
+            // Check if token has expired
+            if (currentTime > expirationTime) {
+                return res.status(401).json({message: "Token has expired, please log in again"});
+            }
+
             req.user = decodedPayload
             next()
         }
