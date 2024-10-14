@@ -3,7 +3,7 @@ const {Category, validateCreateCategory} = require('../models/Category')
 
 /**
  * @desc    Create new category
- * @route   /api/category
+ * @route   /api/categories
  * @method  POST
  * @access  private (only admin)
 */
@@ -24,7 +24,7 @@ module.exports.createCategory = asyncHandler(async (req, res) => {
 
 /**
  * @desc    Get all categories
- * @route   /api/category
+ * @route   /api/categories
  * @method  GET
  * @access  public
 */
@@ -37,7 +37,7 @@ module.exports.getAllCategories = asyncHandler(async (req, res) => {
 
 /**
  * @desc    Delete category
- * @route   /api/category/:id
+ * @route   /api/categories/:id
  * @method  DELETE
  * @access  private (only admin)
 */
